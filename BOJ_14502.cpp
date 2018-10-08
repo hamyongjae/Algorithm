@@ -74,8 +74,6 @@ int main()
 					}
 				}
 
-
-
 				int cnt = 0;
 				for (int i = 0; i < N; i++)
 				{
@@ -87,7 +85,6 @@ int main()
 						}
 					}
 				}
-
 				MAX = max(cnt, MAX);
 			}
 		}
