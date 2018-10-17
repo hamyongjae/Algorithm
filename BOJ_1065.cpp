@@ -3,7 +3,6 @@
 //ex 110 >>>>> 99°³
 #include <iostream>
 using namespace std;
-
 int dydwo(int n) // 101
 {
 	int i, j, count = 0, temp;
