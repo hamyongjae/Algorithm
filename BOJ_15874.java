@@ -40,7 +40,5 @@ public class BOJ_15874 {
 			sb.append(temp);
 		}
 		System.out.println(sb.toString());
-		// N qtaj Wji Gqfhp Ywjj, mtb fgtzy dtz.
-		// N qtaj Wji Gqfhp Ywjj, mtb fgtzy dtz.
 	}
 }
