@@ -1,55 +1,59 @@
-package Algorithm;
-
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Main {
 
 	public static void main(String[] args) {
-		
-		int temp=1,sum=0;
-		Stack<Character> stack = new Stack<>();
-		Scanner scanner = new Scanner(System.in);
-		String s = scanner.nextLine();
 
-		for(int i=0; i<s.length(); i++){
-			
-			if(s.charAt(i)=='(') {
-				stack.push('(');
-				temp*=2;
-				if(s.charAt(i+1)==')')
-					sum+=temp;
-			}
-			else if(s.charAt(i)=='[') {
-				stack.push('[');
-				temp*=3;
-				if(s.charAt(i+1)==']')
-					sum+=temp;
-			}
-			else if(s.charAt(i)==')') {
-				
-				temp/=2;
-				
-				if(stack.isEmpty() || stack.peek()!='(') {
-					sum=0;
-					break;
-				}
-				stack.pop();
-			}
-			else if(s.charAt(i)==']' ) {
-				
-				temp/=3;
-				
-				if(stack.isEmpty() || stack.peek()!='[') {
-					sum=0;
-					break;
-				}
-				stack.pop();
-			}
+		Scanner sc = new Scanner(System.in);
+		String[] s = new String[3];
+		StringBuilder result = new StringBuilder();
+
+		boolean flag[] = new boolean[3];
+		HashSet<Character> set = new HashSet<Character>();
+
+		//int testcase = sc.nextInt();
+		//sc.nextLine();
+
+		for (int j = 0; j < 3; j++)
+			s[j] = sc.nextLine();
+
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < s[j].length(); k++)
+				set.add(s[j].charAt(k));
 		}
 		
-		if(!stack.isEmpty())
-			sum=0;
-		System.out.println(sum);
+		
+
+		Iterator it = set.iterator();
+		
+
+
+		while (it.hasNext()) {
+			char temp = (char) it.next();
+
+			for (int i = 0; i < 3; i++) {
+				flag[i] = false;
+				for (int j = 0; j < s[i].length(); j++) {
+					if (s[i].charAt(j) == temp) {
+						System.out.println("s[i]~~ =" +s[i].charAt(j));
+						System.out.println("temp="+temp+", i="+i+", j="+j+" 이거일때 "+flag[i]+"엿던 flag["+i+"]"+ "를 true로 바꾼다!");
+						flag[i] = true;
+						//break
+					}
+				}
+			}
+
+			if (flag[0] && flag[1] && flag[2]) {
+				System.out.println(temp);
+				//System.out.println(set.remove(temp));
+			}
+
+		}
+
+		//System.out.println(result.length());
+
 	}
+	
 }
