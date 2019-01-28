@@ -1,59 +1,62 @@
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
+package Algorithm;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
+	static int[][] arr;
+	static boolean[] check; // 초기값 false
+	static int sum = 0, answer;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int test_case = Integer.parseInt(br.readLine());
 
-		Scanner sc = new Scanner(System.in);
-		String[] s = new String[3];
-		StringBuilder result = new StringBuilder();
-
-		boolean flag[] = new boolean[3];
-		HashSet<Character> set = new HashSet<Character>();
-
-		//int testcase = sc.nextInt();
-		//sc.nextLine();
-
-		for (int j = 0; j < 3; j++)
-			s[j] = sc.nextLine();
-
-		for (int j = 0; j < 3; j++) {
-			for (int k = 0; k < s[j].length(); k++)
-				set.add(s[j].charAt(k));
-		}
-		
-		
-
-		Iterator it = set.iterator();
-		
-
-
-		while (it.hasNext()) {
-			char temp = (char) it.next();
-
-			for (int i = 0; i < 3; i++) {
-				flag[i] = false;
-				for (int j = 0; j < s[i].length(); j++) {
-					if (s[i].charAt(j) == temp) {
-						System.out.println("s[i]~~ =" +s[i].charAt(j));
-						System.out.println("temp="+temp+", i="+i+", j="+j+" 이거일때 "+flag[i]+"엿던 flag["+i+"]"+ "를 true로 바꾼다!");
-						flag[i] = true;
-						//break
-					}
+		for (int t = 0; t < test_case; t++) {
+			arr = new int[12][12];
+			check = new boolean[12];
+			answer = 0;
+			for (int i = 1; i < 12; i++) {
+				st = new StringTokenizer(br.readLine());
+				for (int j = 1; j < 12; j++) {
+					arr[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
+			
+			for (int i = 1; i < 12; i++) {
 
-			if (flag[0] && flag[1] && flag[2]) {
-				System.out.println(temp);
-				//System.out.println(set.remove(temp));
+				// 0 이면 패스
+				if (arr[1][i] == 0)
+					continue;
+				
+				check[i] = true;
+				dfs(1, arr[1][i]); //첫번쨰 선수부터 시작
+				check[i] = false;
+
 			}
-
+			System.out.println(answer);
 		}
 
-		//System.out.println(result.length());
-
+		br.close();
 	}
-	
+
+	public static void dfs(int player, int sum) {
+		// 마지막 선수까지오면 
+		if (player == 11) {
+			answer = Math.max(answer, sum);
+			return;
+		}
+		for (int i = 1; i < 12; i++) {
+			if (arr[player + 1][i] == 0 || check[i] == true)
+				continue;
+
+			check[i] = true;
+			System.out.println(player + "번 플레이어 " +"i = "+i+" sum = " + sum);
+			dfs(player + 1, sum + arr[player+1][i]);
+			check[i] = false;
+		}
+	}
 }
