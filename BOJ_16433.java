@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 // BOJ_16433
 // 주디와 당근농장
+// BFS
 public class BOJ_16433 {
 
 	static int N, R, C;
