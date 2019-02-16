@@ -7,7 +7,7 @@ package Algorithm;
 public class BOJ_15685 {
 
 	public static void main(String[] args) {
- 
+  
 	}
 
 }
