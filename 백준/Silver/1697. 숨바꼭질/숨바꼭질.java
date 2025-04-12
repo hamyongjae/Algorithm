@@ -1,63 +1,63 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int N, K;
-	static int cnt = 0;
-	static int map[] = new int[100001];
+    static int[] visited = new int[100001];
+    static int N, K;
 
-	static Queue<Integer> qu = new LinkedList<Integer>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-	public static void main(String agrs[]) throws IOException {
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+        BFS(N);
 
-		N = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
+        System.out.println(visited[K]);
+    }
 
-		BFS(N);
-		System.out.println(map[K]-1);
-	}
+    public static void BFS(int N){
+        Queue<Integer> qu = new LinkedList<>();
 
-	static void BFS(int N) {
-		qu.add(N);
-		map[N] = 1;
+        qu.add(N);
 
-		if (N == K)
-			return;
-		
-		
-		while (!qu.isEmpty()) {
-			int cur = qu.poll();
+        visited[N] = 0;
 
-			if (cur == K)
-				break;
+        int[] dy = {1, -1, 2};
 
-			int a = cur + 1;
-			int b = cur - 1;
-			int c = cur * 2;
+        while(!qu.isEmpty()) {
 
-			if (0 <= a && a < 100001 && map[a] == 0) {
-				qu.add(a);
-				map[a] = map[cur]+1;
-			}
+            int now = qu.poll();
 
-			if (0 <= b && b < 100001 && map[b] == 0) {
-				qu.add(b);
-				map[b] = map[cur]+1;
-			}
+            if(now == K){
+                return;
+            }
 
-			if (0 <= c && c < 100001 && map[c] == 0) {
-				qu.add(c);
-				map[c] = map[cur]+1;
-			}
-		}
-	}
+            for(int i = 0; i < 3; i ++){
+
+                int next;
+
+                if(i == 2){
+                    next = now * dy[i];
+                }
+                else {
+                    next = now + dy[i];
+                }
+
+                if(0 <= next && next <= 100000){
+                    if(visited[next] == 0){
+                        visited[next] = visited[now] + 1;
+                        qu.add(next);
+                    }
+                }
+            }
+        }
+    }
 }
