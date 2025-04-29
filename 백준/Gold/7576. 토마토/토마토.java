@@ -7,76 +7,64 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int M, N;
-	static int map[][];
-	static int dy[] = { 1, 0, -1, 0 };
-	static int dx[] = { 0, 1, 0, -1 };
-	static int cnt1 = 0, cnt2 = 0, day = 0;
-	static Queue<int[]> qu = new LinkedList<int[]>();
+    static int N, M;
+    static int[] dy = {1, 0, -1, 0};
+    static int[] dx = {0, 1, 0, -1};
+    static int[][] map;
+    static int max = Integer.MIN_VALUE;
 
-	public static void main(String[] agrs) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+    public static void main(String[] args) throws IOException {
 
-		M = Integer.parseInt(st.nextToken()); // 가로
-		N = Integer.parseInt(st.nextToken()); // 세로
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		map = new int[N + 1][M + 1];
+        M = Integer.parseInt(st.nextToken()); // 세로
+        N = Integer.parseInt(st.nextToken()); // 가로
 
-		for (int i = 1; i <= N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 1; j <= M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
+        map = new int[N][M];
 
-				if (map[i][j] == 1)
-					qu.add(new int[] { i, j });
-				else if (map[i][j] == -1)
-					cnt1++;
-			}
-		}
+        Queue<int[]> qu = new LinkedList<>();
 
-		BFS();
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
 
-		Loop1: for (int i = 1; i <= N; i++) {
-			for (int j = 1; j <= M; j++) {
-				day = Math.max(day, map[i][j]);
+                if (map[i][j] == 1) {
+                    qu.add(new int[]{i, j});
+                }
+            }
+        }
 
-				if (map[i][j] == 0) {
-					day = -1;
-					break Loop1;
-				}
-			}
-		}
-		if (day != -1)
-			System.out.println(day - 1);
-		else
-			System.out.println(day);
-	}
+        while (!qu.isEmpty()) {
+            int cy = qu.peek()[0];
+            int cx = qu.peek()[1];
 
-	static void BFS() {
+            qu.poll();
 
-		while (!qu.isEmpty()) {
-			int curY = qu.peek()[0];
-			int curX = qu.peek()[1];
+            for (int i = 0; i < 4; i++) {
+                int ny = cy + dy[i];
+                int nx = cx + dx[i];
 
-			qu.poll();
+                if (0 <= ny && 0 <= nx && ny < N && nx < M && map[ny][nx] == 0) {
+                    qu.add(new int[]{ny, nx});
+                    map[ny][nx] = map[cy][cx] + 1;
+                }
+            }
+        }
 
-			for (int i = 0; i < 4; i++) {
-				int ny = curY + dy[i];
-				int nx = curX + dx[i];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (map[i][j] == 0) {
+                    System.out.println(-1);
+                    return;
+                }
+                max = Math.max(map[i][j], max);
+            }
+        }
 
-				if (ny <= 0 || nx <= 0 || ny > N || nx > M)
-					continue;
+        System.out.println(max - 1);
 
-				if (map[ny][nx] != 0)
-					continue;
+    }
 
-				qu.add(new int[] { ny, nx });
-
-				map[ny][nx] = map[curY][curX] + 1;
-
-			}
-		}
-
-	}
 }
